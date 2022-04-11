@@ -4,10 +4,12 @@ import static com.example.nasa_image_search.ApiSetting.API_KEY;
 import static com.example.nasa_image_search.ApiSetting.BASE_URL;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.nasa_image_search.models.ApiResponse;
@@ -21,18 +23,38 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static LocalDate date;
+
+    public void setDate(LocalDate newDate) {
+        date = newDate;
+        // Force reload the activity
+        finish();
+        startActivity(getIntent());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // API request
         NasaImages request = new NasaImages();
-        request.execute(BASE_URL.getValue() + API_KEY.getValue() + "&date=2021-02-01");
+        if (date == null) {
+            request.execute(BASE_URL.getValue() + API_KEY.getValue() + "&date=" + LocalDate.now().toString());
+        } else {
+            request.execute(BASE_URL.getValue() + API_KEY.getValue() + "&date=" + date.toString());
+        }
+    }
+
+    // Display date picker
+    public void showDatePicker(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public class NasaImages extends AsyncTask<String, Integer, ApiResponse> {
