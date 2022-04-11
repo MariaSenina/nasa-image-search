@@ -87,13 +87,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ApiResponse apiResponse) {
             TextView urlText = findViewById(R.id.url);
-            urlText.setText(apiResponse.getUrl());
+            urlText.setText("Image URL: " + apiResponse.getUrl());
 
             TextView dateText = findViewById(R.id.date);
-            dateText.setText(apiResponse.getDate());
+            dateText.setText("Image date: " + apiResponse.getDate());
 
             TextView hdUrlText = findViewById(R.id.hd_url);
-            hdUrlText.setText(apiResponse.getHdUrl());
+            hdUrlText.setText("Image HD URL: " + apiResponse.getHdUrl());
         }
 
         protected String parseJson(InputStream response) throws IOException {

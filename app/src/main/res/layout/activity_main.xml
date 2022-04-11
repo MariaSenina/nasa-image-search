@@ -26,6 +26,7 @@
         android:id="@+id/hd_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HD_URL"/>
+        android:text="HD_URL"
+        android:autoLink="web"/>
 
 </LinearLayout>
