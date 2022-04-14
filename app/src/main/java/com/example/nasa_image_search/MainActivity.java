@@ -1,29 +1,18 @@
 package com.example.nasa_image_search;
 
-import static com.example.nasa_image_search.ApiSetting.API_KEY;
-import static com.example.nasa_image_search.ApiSetting.BASE_URL;
 import static com.example.nasa_image_search.CustomOpener.COL_DATE;
-import static com.example.nasa_image_search.CustomOpener.COL_ID;
 import static com.example.nasa_image_search.CustomOpener.COL_IMAGE;
 import static com.example.nasa_image_search.CustomOpener.TABLE_NAME;
+import static com.example.nasa_image_search.enums.ApiSetting.API_KEY;
+import static com.example.nasa_image_search.enums.ApiSetting.BASE_URL;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.nasa_image_search.models.ApiResponse;
@@ -33,23 +22,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActivityHeaderCreator {
     private List<SavedPhoto> photos;
     private static LocalDate date;
     private ApiResponse response;
-    private CustomOpener dbOpener;
     private SQLiteDatabase sqLiteDatabase;
 
     public void setDate(LocalDate newDate) {
@@ -63,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbOpener = new CustomOpener(this);
+        CustomOpener dbOpener = new CustomOpener(this);
         sqLiteDatabase = dbOpener.getWritableDatabase();
+
+        createActivityHeader();
 
         Button datePickerButton = findViewById(R.id.showDatePickerButton);
         datePickerButton.setOnClickListener(click -> {
@@ -95,63 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("IMAGE ALREADY EXISTS");
             }
         });
-
-        ListView listView = findViewById(R.id.savedPhotos);
-        CustomListAdapter adapter = new CustomListAdapter();
-
-        Button savedPhotosButton = findViewById(R.id.savedPhotosButton);
-        savedPhotosButton.setOnClickListener(click -> {
-            photos = loadItemsFromDatabase();
-
-            listView.setAdapter(adapter);
-        });
-
-        listView.setOnItemLongClickListener((p, b, pos, id) -> {
-            View inflate = getLayoutInflater().inflate(R.layout.saved_photos_layout, null);
-            TextView date = inflate.findViewById(R.id.date);
-            date.setText(photos.get(pos).getDate());
-            TextView photo = inflate.findViewById(R.id.photo);
-            photo.setText(photos.get(pos).getUrl());
-
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("Would you like to delete this entry?")
-                    .setMessage("The selected row is " + pos)
-                    .setPositiveButton("Yes", (click1, arg) -> {
-                        sqLiteDatabase.delete(TABLE_NAME, COL_ID + " = " + adapter.getItemId(pos), null);
-                        photos.remove(pos);
-                        adapter.notifyDataSetChanged();
-                    })
-                    .setNegativeButton("No", (click1, arg) -> {
-                    })
-                    .setView(inflate)
-                    .create().show();
-            return true;
-        });
-    }
-
-    private List<SavedPhoto> loadItemsFromDatabase() {
-        CustomOpener dbOpener = new CustomOpener(this);
-        ArrayList<SavedPhoto> retrievedItems = new ArrayList();
-        sqLiteDatabase = dbOpener.getWritableDatabase();
-
-        //get all rows from the to-do-list table
-        Cursor photoList = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-
-        int dateIndex = photoList.getColumnIndex(COL_DATE);
-        int photoIndex = photoList.getColumnIndex(COL_IMAGE);
-        int idIndex = photoList.getColumnIndex(COL_ID);
-
-        // iterate over the results
-        while (photoList.moveToNext()) {
-            String date = photoList.getString(dateIndex);
-            String photo = photoList.getString(photoIndex);
-            long id = photoList.getLong(idIndex);
-
-            // add retrieved item to the ArrayList for displaying
-            retrievedItems.add(new SavedPhoto(id, photo, date, null));
-        }
-
-        return retrievedItems;
     }
 
     public class NasaImages extends AsyncTask<String, Integer, ApiResponse> {
@@ -202,43 +131,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return stringBuilder.toString();
-        }
-    }
-
-    private class CustomListAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return photos.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return photos.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return ((SavedPhoto)getItem(position)).getId();
-        }
-
-        @Override
-        public View getView(int position, View oldView, ViewGroup parent) {
-            View newView = oldView;
-
-            LayoutInflater inflater = getLayoutInflater();
-
-            if (newView == null) {
-                newView = inflater.inflate(R.layout.saved_photos_layout, parent, false);
-            }
-
-            TextView dateTextView = newView.findViewById(R.id.date);
-            dateTextView.setText("Date: " + ((SavedPhoto) getItem(position)).getDate());
-
-            TextView photoTextView = newView.findViewById(R.id.photo);
-            photoTextView.setText("Photo: " + ((SavedPhoto) getItem(position)).getUrl());
-
-            return newView;
         }
     }
 }

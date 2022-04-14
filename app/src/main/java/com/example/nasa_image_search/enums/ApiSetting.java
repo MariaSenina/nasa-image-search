@@ -1,4 +1,4 @@
-package com.example.nasa_image_search;
+package com.example.nasa_image_search.enums;
 
 public enum ApiSetting {
     BASE_URL("https://api.nasa.gov/planetary/apod?"),
