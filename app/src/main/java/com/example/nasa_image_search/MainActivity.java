@@ -1,6 +1,7 @@
 package com.example.nasa_image_search;
 
 import static com.example.nasa_image_search.CustomOpener.COL_DATE;
+import static com.example.nasa_image_search.CustomOpener.COL_ID;
 import static com.example.nasa_image_search.CustomOpener.COL_IMAGE;
 import static com.example.nasa_image_search.CustomOpener.TABLE_NAME;
 import static com.example.nasa_image_search.enums.ApiSetting.API_KEY;
@@ -14,9 +15,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nasa_image_search.models.ApiResponse;
 import com.example.nasa_image_search.models.SavedPhoto;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +34,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MainActivity extends ActivityHeaderCreator {
-    private List<SavedPhoto> photos;
     private static LocalDate date;
     private ApiResponse response;
     private SQLiteDatabase sqLiteDatabase;
@@ -76,9 +78,15 @@ public class MainActivity extends ActivityHeaderCreator {
                 newRowValues.put(COL_DATE, response.getDate());
                 newRowValues.put(COL_IMAGE, response.getUrl());
                 sqLiteDatabase.insert(TABLE_NAME, null, newRowValues);
-                System.out.println("IMAGE SAVED");
+                Snackbar
+                        .make(saveImageButton, "Image saved", Snackbar.LENGTH_LONG)
+                        .setAction( "Undo", click1 -> {
+                            sqLiteDatabase.delete(TABLE_NAME, COL_DATE + " = '" + date.toString() + "'", null);
+                            System.out.println("DATE:       " + date.toString());
+                        })
+                        .show();
             } else {
-                System.out.println("IMAGE ALREADY EXISTS");
+                Toast.makeText(this, "Image Already Exists", Toast.LENGTH_LONG).show();
             }
         });
     }
