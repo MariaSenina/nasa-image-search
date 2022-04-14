@@ -1,15 +1,17 @@
 package com.example.nasa_image_search.models;
 
-public class SavedPhoto {
+import java.io.Serializable;
+
+public class Photo implements Serializable {
     private long id;
     private String title;
-    private String url;
+    private byte[] image;
     private String date;
     private String hdUrl;
 
-    public SavedPhoto(long id, String url, String date, String hdUrl, String title) {
+    public Photo(long id, byte[] image, String date, String hdUrl, String title) {
         this.id = id;
-        this.url = url;
+        this.image = image;
         this.date = date;
         this.hdUrl = hdUrl;
         this.title = title;
@@ -31,12 +33,12 @@ public class SavedPhoto {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public String getDate() {
@@ -60,7 +62,7 @@ public class SavedPhoto {
         return "SavedPhoto{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
+                ", image='" + image + '\'' +
                 ", date='" + date + '\'' +
                 ", hdUrl='" + hdUrl + '\'' +
                 '}';

@@ -19,4 +19,6 @@
     <string name="photo_name">Título</string>
     <string name="search_for_title">Buscar un Titulo de Foto</string>
     <string name="search">Buscar</string>
+    <string name="view_slideshow">Ver Presentación</string>
+    <string name="back">Atras</string>
 </resources>

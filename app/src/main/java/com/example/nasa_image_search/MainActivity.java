@@ -11,9 +11,12 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +27,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Blob;
 import java.time.LocalDate;
 
 public class MainActivity extends ActivityHeaderCreator {
@@ -75,13 +80,13 @@ public class MainActivity extends ActivityHeaderCreator {
                 ContentValues newRowValues = new ContentValues();
                 newRowValues.put(COL_NAME, response.getTitle());
                 newRowValues.put(COL_DATE, response.getDate());
-                newRowValues.put(COL_IMAGE, response.getUrl());
+                newRowValues.put(COL_IMAGE, response.getImage());
                 sqLiteDatabase.insert(NASA_IMAGES, null, newRowValues);
                 Snackbar
                         .make(saveImageButton,
                                 getResources().getString(R.string.image_saved),
                                 Snackbar.LENGTH_LONG)
-                        .setAction( getResources().getString(R.string.undo) , click1 -> {
+                        .setAction( getResources().getString(R.string.undo) , clickUndo -> {
                             sqLiteDatabase.delete(NASA_IMAGES, COL_DATE + " = '" + date.toString() + "'", null);
                         })
                         .show();
@@ -105,7 +110,15 @@ public class MainActivity extends ActivityHeaderCreator {
 
                 JSONObject nasaImage = new JSONObject(jsonStr);
                 response.setTitle(nasaImage.getString("title"));
-                response.setUrl(nasaImage.getString("url"));
+                InputStream photoInputStream = makeHttpRequest(nasaImage.getString("url"));
+
+                // get byte[] from a NASA image by following image url received in JSON
+                Bitmap image = BitmapFactory.decodeStream(photoInputStream);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] imageByteArray = stream.toByteArray();
+
+                response.setImage(imageByteArray);
                 response.setDate(nasaImage.getString("date"));
                 response.setHdUrl(nasaImage.getString("hdurl"));
             } catch (IOException | JSONException e) {
@@ -126,8 +139,10 @@ public class MainActivity extends ActivityHeaderCreator {
             TextView title = findViewById(R.id.photoTitle);
             title.setText(getResources().getString(R.string.photo_name) + " " + apiResponse.getTitle());
 
-            TextView urlText = findViewById(R.id.url);
-            urlText.setText(getResources().getString(R.string.image_url) + " " + apiResponse.getUrl());
+            ImageView image = findViewById(R.id.url);
+            Bitmap bitmap = BitmapFactory
+                    .decodeByteArray(apiResponse.getImage(), 0, apiResponse.getImage().length);
+            image.setImageBitmap(bitmap);
 
             TextView dateText = findViewById(R.id.date);
             dateText.setText(getResources().getString(R.string.image_date) + " " + apiResponse.getDate());

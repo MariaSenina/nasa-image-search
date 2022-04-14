@@ -21,4 +21,6 @@
     <string name="photo_name">Title:</string>
     <string name="search_for_title">Search for a Photo Title</string>
     <string name="search">Search</string>
+    <string name="view_slideshow">View Slideshow</string>
+    <string name="back">Back</string>
 </resources>

@@ -2,7 +2,7 @@ package com.example.nasa_image_search.models;
 
 public class ApiResponse {
     private String title;
-    private String url;
+    private byte[] image;
     private String date;
     private String hdUrl;
 
@@ -14,12 +14,12 @@ public class ApiResponse {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public String getDate() {
@@ -42,7 +42,7 @@ public class ApiResponse {
     public String toString() {
         return "ApiResponse{" +
                 "title='" + title + '\'' +
-                ", url='" + url + '\'' +
+                ", image='" + image + '\'' +
                 ", date='" + date + '\'' +
                 ", hdUrl='" + hdUrl + '\'' +
                 '}';

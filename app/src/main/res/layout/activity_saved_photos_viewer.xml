@@ -15,6 +15,12 @@
         android:background="@color/purple_500"
         app:titleTextColor="@color/white"/>
 
+    <Button
+        android:id="@+id/slideshowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_slideshow" />
+
     <ListView
         android:id="@+id/savedPhotos"
         android:layout_width="wrap_content"
