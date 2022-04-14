@@ -3,6 +3,7 @@ package com.example.nasa_image_search;
 import static com.example.nasa_image_search.CustomOpener.COL_DATE;
 import static com.example.nasa_image_search.CustomOpener.COL_ID;
 import static com.example.nasa_image_search.CustomOpener.COL_IMAGE;
+import static com.example.nasa_image_search.CustomOpener.COL_NAME;
 import static com.example.nasa_image_search.CustomOpener.NASA_IMAGES;
 
 import android.database.Cursor;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +35,7 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
         setContentView(R.layout.activity_saved_photos_viewer);
         createActivityHeader();
 
-        photos = loadItemsFromDatabase();
+        photos = loadItemsFromDatabase("SELECT * FROM " + NASA_IMAGES);
 
         ListView listView = findViewById(R.id.savedPhotos);
         SavedPhotosViewer.CustomListAdapter adapter = new SavedPhotosViewer.CustomListAdapter();
@@ -60,28 +63,39 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
                     .create().show();
             return true;
         });
+
+        Button searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(click -> {
+            EditText typedSearch = findViewById(R.id.searchText);
+            String searchText = typedSearch.getText().toString();
+            String searchQuery = "SELECT * FROM " + NASA_IMAGES + " WHERE " + COL_NAME + " LIKE '%" + searchText + "%'";
+            photos = loadItemsFromDatabase(searchQuery);
+            adapter.notifyDataSetChanged();
+        });
     }
 
-    private List<SavedPhoto> loadItemsFromDatabase() {
+    private List<SavedPhoto> loadItemsFromDatabase(String query) {
         CustomOpener dbOpener = new CustomOpener(this);
         ArrayList<SavedPhoto> retrievedItems = new ArrayList();
         sqLiteDatabase = dbOpener.getWritableDatabase();
 
         //get all rows from the to-do-list table
-        Cursor photoList = sqLiteDatabase.rawQuery("SELECT * FROM " + NASA_IMAGES, null);
+        Cursor photoList = sqLiteDatabase.rawQuery(query, null);
 
+        int nameIndex = photoList.getColumnIndex(COL_NAME);
         int dateIndex = photoList.getColumnIndex(COL_DATE);
         int photoIndex = photoList.getColumnIndex(COL_IMAGE);
         int idIndex = photoList.getColumnIndex(COL_ID);
 
         // iterate over the results
         while (photoList.moveToNext()) {
+            String name = photoList.getString(nameIndex);
             String date = photoList.getString(dateIndex);
             String photo = photoList.getString(photoIndex);
             long id = photoList.getLong(idIndex);
 
             // add retrieved item to the ArrayList for displaying
-            retrievedItems.add(new SavedPhoto(id, photo, date, null));
+            retrievedItems.add(new SavedPhoto(id, photo, date, null, name));
         }
 
         return retrievedItems;
@@ -113,6 +127,10 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
             if (newView == null) {
                 newView = inflater.inflate(R.layout.saved_photos_layout, parent, false);
             }
+
+            TextView titleTextView = newView.findViewById(R.id.photoName);
+            titleTextView.setText(getResources().getString(R.string.photo_name)
+                    + ": " + ((SavedPhoto) getItem(position)).getTitle());
 
             TextView dateTextView = newView.findViewById(R.id.date);
             dateTextView.setText(getResources().getString(R.string.date)

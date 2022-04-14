@@ -18,4 +18,7 @@
     <string name="image_url">Image URL:</string>
     <string name="image_date">Image date:</string>
     <string name="image_hd_url">HD Image:</string>
+    <string name="photo_name">Title:</string>
+    <string name="search_for_title">Search for a Photo Title</string>
+    <string name="search">Search</string>
 </resources>

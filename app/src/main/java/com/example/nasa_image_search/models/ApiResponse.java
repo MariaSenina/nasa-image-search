@@ -1,9 +1,18 @@
 package com.example.nasa_image_search.models;
 
 public class ApiResponse {
+    private String title;
     private String url;
     private String date;
     private String hdUrl;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getUrl() {
         return url;
@@ -32,7 +41,8 @@ public class ApiResponse {
     @Override
     public String toString() {
         return "ApiResponse{" +
-                "url='" + url + '\'' +
+                "title='" + title + '\'' +
+                ", url='" + url + '\'' +
                 ", date='" + date + '\'' +
                 ", hdUrl='" + hdUrl + '\'' +
                 '}';

@@ -2,15 +2,17 @@ package com.example.nasa_image_search.models;
 
 public class SavedPhoto {
     private long id;
+    private String title;
     private String url;
     private String date;
     private String hdUrl;
 
-    public SavedPhoto(long id, String url, String date, String hdUrl) {
+    public SavedPhoto(long id, String url, String date, String hdUrl, String title) {
         this.id = id;
         this.url = url;
         this.date = date;
         this.hdUrl = hdUrl;
+        this.title = title;
     }
 
     public long getId() {
@@ -19,6 +21,14 @@ public class SavedPhoto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getUrl() {
@@ -49,6 +59,7 @@ public class SavedPhoto {
     public String toString() {
         return "SavedPhoto{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", url='" + url + '\'' +
                 ", date='" + date + '\'' +
                 ", hdUrl='" + hdUrl + '\'' +

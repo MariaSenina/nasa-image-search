@@ -2,6 +2,7 @@ package com.example.nasa_image_search;
 
 import static com.example.nasa_image_search.CustomOpener.COL_DATE;
 import static com.example.nasa_image_search.CustomOpener.COL_IMAGE;
+import static com.example.nasa_image_search.CustomOpener.COL_NAME;
 import static com.example.nasa_image_search.CustomOpener.NASA_IMAGES;
 import static com.example.nasa_image_search.enums.ApiSetting.API_KEY;
 import static com.example.nasa_image_search.enums.ApiSetting.BASE_URL;
@@ -72,6 +73,7 @@ public class MainActivity extends ActivityHeaderCreator {
 
             if (sqLiteDatabase.rawQuery(selectQuery, null).getCount() == 0) {
                 ContentValues newRowValues = new ContentValues();
+                newRowValues.put(COL_NAME, response.getTitle());
                 newRowValues.put(COL_DATE, response.getDate());
                 newRowValues.put(COL_IMAGE, response.getUrl());
                 sqLiteDatabase.insert(NASA_IMAGES, null, newRowValues);
@@ -102,6 +104,7 @@ public class MainActivity extends ActivityHeaderCreator {
                 String jsonStr = parseJson(inputStream);
 
                 JSONObject nasaImage = new JSONObject(jsonStr);
+                response.setTitle(nasaImage.getString("title"));
                 response.setUrl(nasaImage.getString("url"));
                 response.setDate(nasaImage.getString("date"));
                 response.setHdUrl(nasaImage.getString("hdurl"));
@@ -120,6 +123,9 @@ public class MainActivity extends ActivityHeaderCreator {
 
         @Override
         protected void onPostExecute(ApiResponse apiResponse) {
+            TextView title = findViewById(R.id.photoTitle);
+            title.setText(getResources().getString(R.string.photo_name) + " " + apiResponse.getTitle());
+
             TextView urlText = findViewById(R.id.url);
             urlText.setText(getResources().getString(R.string.image_url) + " " + apiResponse.getUrl());
 

@@ -11,6 +11,7 @@ public class CustomOpener extends SQLiteOpenHelper {
     public final static int DB_VERSION = 1;
     public final static String NASA_IMAGES = "NASA_IMAGES";
     public final static String COL_ID = "_id";
+    public final static String COL_NAME = "NAME";
     public final static String COL_DATE = "DATE";
     public final static String COL_IMAGE = "IMAGE";
 
@@ -21,6 +22,7 @@ public class CustomOpener extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE " + NASA_IMAGES + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COL_NAME + " TEXT, "
                 + COL_DATE + " TEXT, "
                 + COL_IMAGE + " BLOB);");
     }
