@@ -1,5 +1,21 @@
 <resources>
-    <string name="app_name">NASA Image Search</string>
+    <string name="app_name" translatable="false">NASA Image Search v.1.0</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="pick_date">Pick a date</string>
+    <string name="url" translatable="false">URL</string>
+    <string name="date">Date</string>
+    <string name="hd_url" translatable="false">HD_URL</string>
+    <string name="save_image">Save this image</string>
+    <string name="photo">Photo</string>
+    <string name="home">Home</string>
+    <string name="saved_photos">Saved Photos</string>
+    <string name="exit">Exit</string>
+    <string name="contact">Contact</string>
+    <string name="image_saved">Image saved</string>
+    <string name="undo">Undo</string>
+    <string name="image_exists">Image Already Exists</string>
+    <string name="image_url">Image URL:</string>
+    <string name="image_date">Image date:</string>
+    <string name="image_hd_url">HD Image:</string>
 </resources>

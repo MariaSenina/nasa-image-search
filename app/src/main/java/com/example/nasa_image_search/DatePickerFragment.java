@@ -14,8 +14,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public static final int MONTH_OFFSET = 1;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LocalDate today = LocalDate.now();
-
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -26,9 +24,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        System.out.println(year + "/" + (month+1) + "/" + day);
-
         ((MainActivity)getActivity()).setDate(LocalDate.of(year, (month + MONTH_OFFSET), day));
-
     }
 }

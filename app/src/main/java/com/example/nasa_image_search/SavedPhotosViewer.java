@@ -3,7 +3,7 @@ package com.example.nasa_image_search;
 import static com.example.nasa_image_search.CustomOpener.COL_DATE;
 import static com.example.nasa_image_search.CustomOpener.COL_ID;
 import static com.example.nasa_image_search.CustomOpener.COL_IMAGE;
-import static com.example.nasa_image_search.CustomOpener.TABLE_NAME;
+import static com.example.nasa_image_search.CustomOpener.NASA_IMAGES;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,7 +50,7 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
             alertDialogBuilder.setTitle("Would you like to delete this entry?")
                     .setMessage("The selected row is " + pos)
                     .setPositiveButton("Yes", (click1, arg) -> {
-                        sqLiteDatabase.delete(TABLE_NAME, COL_ID + " = " + adapter.getItemId(pos), null);
+                        sqLiteDatabase.delete(NASA_IMAGES, COL_ID + " = " + adapter.getItemId(pos), null);
                         photos.remove(pos);
                         adapter.notifyDataSetChanged();
                     })
@@ -68,7 +68,7 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
         sqLiteDatabase = dbOpener.getWritableDatabase();
 
         //get all rows from the to-do-list table
-        Cursor photoList = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor photoList = sqLiteDatabase.rawQuery("SELECT * FROM " + NASA_IMAGES, null);
 
         int dateIndex = photoList.getColumnIndex(COL_DATE);
         int photoIndex = photoList.getColumnIndex(COL_IMAGE);
@@ -115,10 +115,12 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
             }
 
             TextView dateTextView = newView.findViewById(R.id.date);
-            dateTextView.setText("Date: " + ((SavedPhoto) getItem(position)).getDate());
+            dateTextView.setText(getResources().getString(R.string.date)
+                    + ": " + ((SavedPhoto) getItem(position)).getDate());
 
             TextView photoTextView = newView.findViewById(R.id.photo);
-            photoTextView.setText("Photo: " + ((SavedPhoto) getItem(position)).getUrl());
+            photoTextView.setText(getResources().getString(R.string.photo)
+                    + ": " + ((SavedPhoto) getItem(position)).getUrl());
 
             return newView;
         }

@@ -1,9 +1,8 @@
 package com.example.nasa_image_search;
 
 import static com.example.nasa_image_search.CustomOpener.COL_DATE;
-import static com.example.nasa_image_search.CustomOpener.COL_ID;
 import static com.example.nasa_image_search.CustomOpener.COL_IMAGE;
-import static com.example.nasa_image_search.CustomOpener.TABLE_NAME;
+import static com.example.nasa_image_search.CustomOpener.NASA_IMAGES;
 import static com.example.nasa_image_search.enums.ApiSetting.API_KEY;
 import static com.example.nasa_image_search.enums.ApiSetting.BASE_URL;
 
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nasa_image_search.models.ApiResponse;
-import com.example.nasa_image_search.models.SavedPhoto;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
@@ -31,7 +29,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.List;
 
 public class MainActivity extends ActivityHeaderCreator {
     private static LocalDate date;
@@ -71,22 +68,25 @@ public class MainActivity extends ActivityHeaderCreator {
         Button saveImageButton = findViewById(R.id.saveImageButton);
         // Add photo to the database on button click
         saveImageButton.setOnClickListener(click -> {
-            String selectQuery = "SELECT " + COL_DATE + " FROM " + TABLE_NAME + " WHERE " + COL_DATE + "='" + response.getDate() + "'";
+            String selectQuery = "SELECT " + COL_DATE + " FROM " + NASA_IMAGES + " WHERE " + COL_DATE + "='" + response.getDate() + "'";
 
             if (sqLiteDatabase.rawQuery(selectQuery, null).getCount() == 0) {
                 ContentValues newRowValues = new ContentValues();
                 newRowValues.put(COL_DATE, response.getDate());
                 newRowValues.put(COL_IMAGE, response.getUrl());
-                sqLiteDatabase.insert(TABLE_NAME, null, newRowValues);
+                sqLiteDatabase.insert(NASA_IMAGES, null, newRowValues);
                 Snackbar
-                        .make(saveImageButton, "Image saved", Snackbar.LENGTH_LONG)
-                        .setAction( "Undo", click1 -> {
-                            sqLiteDatabase.delete(TABLE_NAME, COL_DATE + " = '" + date.toString() + "'", null);
-                            System.out.println("DATE:       " + date.toString());
+                        .make(saveImageButton,
+                                getResources().getString(R.string.image_saved),
+                                Snackbar.LENGTH_LONG)
+                        .setAction( getResources().getString(R.string.undo) , click1 -> {
+                            sqLiteDatabase.delete(NASA_IMAGES, COL_DATE + " = '" + date.toString() + "'", null);
                         })
                         .show();
             } else {
-                Toast.makeText(this, "Image Already Exists", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,
+                        getResources().getString(R.string.image_exists), Toast.LENGTH_LONG)
+                        .show();
             }
         });
     }
@@ -121,13 +121,13 @@ public class MainActivity extends ActivityHeaderCreator {
         @Override
         protected void onPostExecute(ApiResponse apiResponse) {
             TextView urlText = findViewById(R.id.url);
-            urlText.setText("Image URL: " + apiResponse.getUrl());
+            urlText.setText(getResources().getString(R.string.image_url) + " " + apiResponse.getUrl());
 
             TextView dateText = findViewById(R.id.date);
-            dateText.setText("Image date: " + apiResponse.getDate());
+            dateText.setText(getResources().getString(R.string.image_date) + " " + apiResponse.getDate());
 
             TextView hdUrlText = findViewById(R.id.hd_url);
-            hdUrlText.setText("Image HD URL: " + apiResponse.getHdUrl());
+            hdUrlText.setText(getResources().getString(R.string.image_hd_url) + " " + apiResponse.getHdUrl());
         }
 
         protected String parseJson(InputStream response) throws IOException {

@@ -16,6 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 public class ActivityHeaderCreator extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private final int OPEN = R.string.open;
+    private final int CLOSE = R.string.close;
 
     public void createActivityHeader() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -23,7 +25,7 @@ public class ActivityHeaderCreator extends AppCompatActivity implements Navigati
 
         DrawerLayout drawer = findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawer, toolbar, R.string.open, R.string.close);
+                drawer, toolbar, OPEN, CLOSE);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -35,19 +37,20 @@ public class ActivityHeaderCreator extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Intent nextActivity = null;
         LinearLayout placeholderLayout = findViewById(R.id.placeholderLayout);
+        DrawerLayout parent = (DrawerLayout)placeholderLayout.getParent();
 
         switch( item.getItemId() ) {
             case R.id.homeOption:
                 if (this.getClass() != MainActivity.class) {
                     nextActivity = new Intent(this, MainActivity.class);
-                    getLayoutInflater().inflate(R.layout.activity_main, (DrawerLayout)placeholderLayout.getParent(), false);
+                    getLayoutInflater().inflate(R.layout.activity_main, parent, false);
                     startActivity(nextActivity);
                 }
                 break;
             case R.id.savedPhotos:
                 if (this.getClass() != SavedPhotosViewer.class) {
                     nextActivity = new Intent(this, SavedPhotosViewer.class);
-                    getLayoutInflater().inflate(R.layout.saved_photos_layout, (DrawerLayout)placeholderLayout.getParent(), false);
+                    getLayoutInflater().inflate(R.layout.saved_photos_layout, parent, false);
                     startActivity(nextActivity);
                 }
                 break;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="pick_date">Elija Una Fetcha</string>
+    <string name="date">Fecha</string>
+    <string name="save_image">Guardar Esta Imagen</string>
+    <string name="photo">Foto</string>
+    <string name="home">Inicio</string>
+    <string name="saved_photos">Fotos Guardadas</string>
+    <string name="exit">Salir</string>
+    <string name="contact">Contactar</string>
+    <string name="image_saved">Imagen Guardada</string>
+    <string name="undo">Deshacer</string>
+    <string name="image_exists">La Imagen Ya Existe</string>
+    <string name="image_url">Imagen URL:</string>
+    <string name="image_date">Imagen Fecha:</string>
+    <string name="image_hd_url">Imagen HD:</string>
+</resources>
