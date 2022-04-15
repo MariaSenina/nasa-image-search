@@ -55,6 +55,8 @@ public class SavedPhotosViewer extends ActivityHeaderCreator {
 
         listView.setOnItemLongClickListener((p, b, pos, id) -> {
             View inflate = getLayoutInflater().inflate(R.layout.saved_photos_layout, null);
+            TextView title = inflate.findViewById(R.id.photoName);
+            title.setText(photos.get(pos).getTitle());
             TextView date = inflate.findViewById(R.id.date);
             date.setText(photos.get(pos).getDate());
             ImageView photo = inflate.findViewById(R.id.photo);

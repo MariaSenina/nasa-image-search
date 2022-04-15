@@ -5,21 +5,25 @@
     <item android:id="@+id/homeOption"
         android:title="@string/home"
         android:orderInCategory="1"
+        android:icon="@drawable/home_icon"
         app:showAsAction="never" />
 
     <item android:id="@+id/savedPhotos"
         android:title="@string/saved_photos"
         android:orderInCategory="2"
+        android:icon="@drawable/star"
         app:showAsAction="never"/>
 
     <item android:id="@+id/setNameButton"
         android:title="@string/define_name"
         android:orderInCategory="3"
+        android:icon="@drawable/setting"
         app:showAsAction="never"/>
 
     <item android:id="@+id/exit"
         android:title="@string/exit"
         android:orderInCategory="4"
+        android:icon="@drawable/exit_icon"
         app:showAsAction="never"/>
 
 </menu>

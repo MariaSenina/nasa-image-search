@@ -16,7 +16,7 @@
     <string name="image_url">Imagen URL:</string>
     <string name="image_date">Imagen Fecha:</string>
     <string name="image_hd_url">Imagen HD:</string>
-    <string name="photo_name">Título</string>
+    <string name="photo_name">Título:</string>
     <string name="search_for_title">Buscar un Titulo de Foto</string>
     <string name="search">Buscar</string>
     <string name="view_slideshow">Ver Presentación</string>

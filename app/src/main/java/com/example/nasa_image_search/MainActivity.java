@@ -88,8 +88,10 @@ public class MainActivity extends ActivityHeaderCreator {
         // API request
         NasaImages request = new NasaImages();
         if (date == null) {
+            // Set today's date as the query parameter for the API call
             request.execute(BASE_URL.getValue() + API_KEY.getValue() + "&date=" + LocalDate.now().toString());
         } else {
+            // Set user-picked date as the query parameter for the API call
             request.execute(BASE_URL.getValue() + API_KEY.getValue() + "&date=" + date.toString());
         }
 
@@ -130,16 +132,18 @@ public class MainActivity extends ActivityHeaderCreator {
                 InputStream inputStream = makeHttpRequest(args[0]);
                 String jsonStr = parseJson(inputStream);
 
+                // Receive JSON object
                 JSONObject nasaImage = new JSONObject(jsonStr);
-                response.setTitle(nasaImage.getString("title"));
-                InputStream photoInputStream = makeHttpRequest(nasaImage.getString("url"));
 
                 // get byte[] from a NASA image by following image url received in JSON
+                InputStream photoInputStream = makeHttpRequest(nasaImage.getString("url"));
                 Bitmap image = BitmapFactory.decodeStream(photoInputStream);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] imageByteArray = stream.toByteArray();
 
+                // Assign received values to the attributes of the POJO responsible for the ApiResponse
+                response.setTitle(nasaImage.getString("title"));
                 response.setImage(imageByteArray);
                 response.setDate(nasaImage.getString("date"));
                 response.setHdUrl(nasaImage.getString("hdurl"));
