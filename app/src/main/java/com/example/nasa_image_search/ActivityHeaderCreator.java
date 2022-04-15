@@ -19,6 +19,9 @@ public class ActivityHeaderCreator extends AppCompatActivity implements Navigati
     private final int OPEN = R.string.open;
     private final int CLOSE = R.string.close;
 
+    /**
+     * Creates a Toolbar and Drawer Layout for an activity.
+     */
     public void createActivityHeader() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

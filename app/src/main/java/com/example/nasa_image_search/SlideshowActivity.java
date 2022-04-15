@@ -40,6 +40,11 @@ public class SlideshowActivity extends AppCompatActivity {
         slideshow.execute(photos);
     }
 
+    /**
+     * Loads saved photos from the database based on a given query.
+     * @param query String containing the query to be executed.
+     * @return A collection of Photo objects.
+     */
     private List<Photo> loadItemsFromDatabase(String query) {
         CustomOpener dbOpener = new CustomOpener(this);
         ArrayList<Photo> retrievedItems = new ArrayList();

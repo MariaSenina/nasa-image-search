@@ -44,6 +44,10 @@ public class MainActivity extends ActivityHeaderCreator {
     private ApiResponse response;
     private SQLiteDatabase sqLiteDatabase;
 
+    /**
+     * Reloads activity if new date is set by user.
+     * @param newDate New date selected
+     */
     public void setDate(LocalDate newDate) {
         date = newDate;
         // Force reload the activity
@@ -154,6 +158,12 @@ public class MainActivity extends ActivityHeaderCreator {
             return response;
         }
 
+        /**
+         * Takes in a URL in the form of a String and executes an HTTP request.
+         * @param address URL in the form of a String.
+         * @return InputStream containing the result from the HTTP request.
+         * @throws IOException
+         */
         protected InputStream makeHttpRequest(String address) throws IOException {
             URL url = new URL(address);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -177,6 +187,12 @@ public class MainActivity extends ActivityHeaderCreator {
             hdUrlText.setText(getResources().getString(R.string.image_hd_url) + " " + apiResponse.getHdUrl());
         }
 
+        /**
+         * Parses an InputStream into a String.
+         * @param response InputStream to be parsed.
+         * @return A String containing the InputStream content.
+         * @throws IOException
+         */
         protected String parseJson(InputStream response) throws IOException {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response, "UTF-8"), 8);
             StringBuilder stringBuilder = new StringBuilder();

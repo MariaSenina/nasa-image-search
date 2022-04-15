@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class NameActivity extends ActivityHeaderCreator {
-    SharedPreferences preferences;
     EditText typeField;
 
     @Override
@@ -34,6 +33,10 @@ public class NameActivity extends ActivityHeaderCreator {
         saveSharedPreferences(typeField.getText().toString());
     }
 
+    /**
+     * Saves SharedPreferences for value retrieval in the next session.
+     * @param stringToSave String to be saved.
+     */
     private void saveSharedPreferences(String stringToSave) {
         SharedPreferences preferences = getSharedPreferences("SavedPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
