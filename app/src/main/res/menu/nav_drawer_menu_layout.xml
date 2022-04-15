@@ -12,9 +12,14 @@
         android:orderInCategory="2"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/setNameButton"
+        android:title="@string/define_name"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/exit"
         android:title="@string/exit"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         app:showAsAction="never"/>
 
 </menu>

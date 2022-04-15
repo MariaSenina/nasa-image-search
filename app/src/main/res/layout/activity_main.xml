@@ -15,6 +15,13 @@
         android:background="@color/purple_500"
         app:titleTextColor="@color/white"/>
 
+    <TextView
+        android:id="@+id/greetingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome"/>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

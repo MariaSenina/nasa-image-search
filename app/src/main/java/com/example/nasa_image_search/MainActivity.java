@@ -10,6 +10,9 @@ import static com.example.nasa_image_search.enums.ApiSetting.BASE_URL;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,6 +59,25 @@ public class MainActivity extends ActivityHeaderCreator {
         sqLiteDatabase = dbOpener.getWritableDatabase();
 
         createActivityHeader();
+
+        Intent sentData = getIntent();
+        String nameReceived = sentData.getStringExtra("name");
+        TextView welcomeText = findViewById(R.id.greetingText);
+
+        SharedPreferences preferences = getSharedPreferences("SavedPreferences", Context.MODE_PRIVATE);
+        String savedString = preferences.getString("ReserveName", "");
+
+        String originalWelcome = getResources().getString(R.string.welcome);
+        String welcome = originalWelcome.substring(0, originalWelcome.length() - 1);
+
+        String newWelcomeMessage = "";
+
+        if(nameReceived == null && savedString != null) {
+            newWelcomeMessage = welcome + " " + savedString + "!";
+        } else {
+            newWelcomeMessage = welcome + " " + nameReceived + "!";
+        }
+        welcomeText.setText(newWelcomeMessage);
 
         Button datePickerButton = findViewById(R.id.showDatePickerButton);
         datePickerButton.setOnClickListener(click -> {

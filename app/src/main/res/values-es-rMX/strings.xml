@@ -21,4 +21,8 @@
     <string name="search">Buscar</string>
     <string name="view_slideshow">Ver Presentación</string>
     <string name="back">Atras</string>
+    <string name="back_home">Volver A Inicio</string>
+    <string name="enter_name">Introduzca Su Nombre</string>
+    <string name="define_name">Agrege Su Nombre</string>
+    <string name="welcome">Bienvenido!</string>
 </resources>

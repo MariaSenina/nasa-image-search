@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NASAImageSearch">
         <activity
+            android:name=".NameActivity"
+            android:exported="false" />
+        <activity
             android:name=".SlideshowActivity"
             android:exported="false" />
         <activity

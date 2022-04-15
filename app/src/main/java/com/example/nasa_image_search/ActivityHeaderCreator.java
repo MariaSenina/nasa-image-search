@@ -54,6 +54,13 @@ public class ActivityHeaderCreator extends AppCompatActivity implements Navigati
                     startActivity(nextActivity);
                 }
                 break;
+            case R.id.setNameButton:
+                if (this.getClass() != NameActivity.class) {
+                    nextActivity = new Intent(this, NameActivity.class);
+                    getLayoutInflater().inflate(R.layout.activity_name, parent, false);
+                    startActivity(nextActivity);
+                }
+                break;
             case R.id.exit:
                 this.finishAffinity();
                 break;

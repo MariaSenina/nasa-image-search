@@ -23,4 +23,8 @@
     <string name="search">Search</string>
     <string name="view_slideshow">View Slideshow</string>
     <string name="back">Back</string>
+    <string name="back_home">Back Home</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="define_name">Add Your Name</string>
+    <string name="welcome">Welcome!</string>
 </resources>
